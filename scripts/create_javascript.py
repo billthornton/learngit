@@ -1,4 +1,5 @@
 import os
+import sys
 import json
 import subprocess
 from cgi import escape
@@ -38,9 +39,9 @@ GLOBAL_REPLACES = {
 
 class Command(object):
     """ Runs the specified command, and records the output """
-    def __init__(self, command, hidden_commands, comments, base_dir, lesson_name):
+    def __init__(self, command, hidden_commands, scenario, comments, base_dir, lesson_name):
         self.comments = comments
-        self.comments.append('Next Command: ' + command)
+        self.scenario = scenario
         self.lesson_name = lesson_name
 
         self.hidden_commands = hidden_commands
@@ -62,8 +63,6 @@ class Command(object):
 
     def remap_command(self, command):
         # TODO: Find a better way to do this
-        if command.startswith('cd %s' % self.lesson_name):
-            command = command.replace(self.lesson_name, '__repo__')
         if command.startswith('git clone'):
             path = os.path.realpath(os.path.join(self.base_dir, '../__repo__'))
             command = 'git clone ' + path
@@ -72,9 +71,12 @@ class Command(object):
 
     def run_command(self, command):
         command = self.remap_command(command)
-        cmd = 'cd {base_dir}; {command}'.format(base_dir=self.base_dir, command=command)
-        print ' >>  ' + cmd
-        r = subprocess.Popen(cmd, shell=True, stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+        # Only prefix if we aren't cd'ing into out workspace 
+        if not command.startswith('cd __repo__'):
+            prefix = 'cd {base_dir}; '.format(base_dir=self.base_dir)
+            command = prefix + command
+        print ' >>  ' + command
+        r = subprocess.Popen(command, shell=True, stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
         response = r.stdout.read()
         for repl_for, repl_with in GLOBAL_REPLACES.iteritems():
             response = response.replace(repl_for, repl_with)
@@ -123,15 +125,20 @@ class Lesson(object):
         """ Run each of the commands for a lesson """
         c = []
         for command in self.commands:
+            display_command = command.command
+            for repl_for, repl_with in GLOBAL_REPLACES.iteritems():
+                display_command = display_command.replace(repl_for, repl_with)
+            display_command = display_command.replace('__repo__', self.lesson_name)
             global_responses = {}
             for cmd, resp in command.global_responses.iteritems():
                 global_responses[cmd] = escape(resp.strip()).replace('\n', '<br />')
             response = escape(command.response.strip()).replace('\n', '<br />')
             e = {
-                'command': command.command,
+                'command': display_command,
                 'response': response,
                 'global_responses': global_responses,
-                'comments': [escape(comment) for comment in command.comments]
+                'comments': [escape(comment) for comment in command.comments],
+                'scenario': [escape(scenario) for scenario in command.scenario]
             }
             c.append(e)
         filepath = os.path.join(BASE_DIR, '../static/js/lessons/%s.js' % self.lesson_name.replace('_', '-'))
@@ -171,6 +178,7 @@ class Lesson(object):
         with open(lesson_path, 'r') as f:
             lines = f.readlines()
 
+        scenario = []
         comments = []
         hidden_commands = []
         commands = []
@@ -181,7 +189,9 @@ class Lesson(object):
             if not line:
                 continue
 
-            if line.startswith('#'):
+            if line.startswith('##'):
+                scenario.append(line.strip('# '))
+            elif line.startswith('#'):
                 comments.append(line.strip('# '))
             elif line.startswith(';'):
                 hidden_commands.append(line.strip('; '))
@@ -191,9 +201,10 @@ class Lesson(object):
                 if command.startswith('cd '):
                     # TODO: Need better handling for remapping 'cd' calls
                     workspace = os.path.join(workspace, '__repo__')
-                c = Command(command, hidden_commands, comments, workspace, self.lesson_name)
+                c = Command(command, hidden_commands, scenario, comments, workspace, self.lesson_name)
                 commands.append(c)
-                # Reset the comments array
+                # Reset the the scenario, comments and hidden commands
+                scenario = []
                 comments = []
                 hidden_commands = []
 
@@ -201,15 +212,15 @@ class Lesson(object):
 
 
 def main():
+    print '!!! WARNING - This script executes a number of shell scripts which may perform harmful operations if misconfigured.'
+    resp = raw_input('Are you sure you wish to run this script? (y/N)')
+    if resp.lower() not in ['y', 'yes']:
+        sys.exit(0)
     lessons_path = os.path.join(BASE_DIR, '../lessons')
-    print lessons_path
     for directory in os.listdir(lessons_path):
         lesson_dir = os.path.join(lessons_path, directory)
         with Lesson(lesson_dir, directory) as lesson:
             lesson.run()
-        #l = Lesson(lesson_dir, directory)
-        #l.run()
-        #l.teardown()
 
 if __name__ == '__main__':
     main()
