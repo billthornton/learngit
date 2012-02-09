@@ -1,3 +1,2 @@
 cd ../lessons/lesson-one/
-rm -rf workspace
-rm -rf __repo__
+rm -rf temp

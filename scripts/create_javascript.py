@@ -17,9 +17,10 @@ A lesson is specified in a series of bash scripts:
     * teardown.sh - Commands to bring us back to a clean state
 
 # Comment - may span multiple lines
+## Scenario - (highlighted in blue) will always appear after any comments
 ; Hidden command (is executed before the next command, but the output is not logged)
 
-__repo__ = folder representing the git repository created for the project. It is replace with the name 
+__lesson_name__ = folder representing the git repository created for the project. It is replace with the name 
 of the lesson when being shown to the user
 
 """
@@ -63,24 +64,20 @@ class Command(object):
 
     def remap_command(self, command):
         # TODO: Find a better way to do this
+        # All commands are executred within the workspace, however our repo to clone will be in temp/_repo_
         if command.startswith('git clone'):
             path = os.path.realpath(os.path.join(self.base_dir, '../__repo__'))
-            command = 'git clone ' + path
+            command = 'git clone ' + path + ' __lesson_name__'
 
         return command
 
     def run_command(self, command):
         command = self.remap_command(command)
-        # Only prefix if we aren't cd'ing into out workspace 
-        if not command.startswith('cd __repo__'):
-            prefix = 'cd {base_dir}; '.format(base_dir=self.base_dir)
-            command = prefix + command
+        prefix = 'cd {base_dir}; '.format(base_dir=self.base_dir)
+        command = prefix + command
         print ' >>  ' + command
         r = subprocess.Popen(command, shell=True, stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
         response = r.stdout.read()
-        for repl_for, repl_with in GLOBAL_REPLACES.iteritems():
-            response = response.replace(repl_for, repl_with)
-        response = response.replace('__repo__', self.lesson_name)
         return response
 
     def run(self):
@@ -125,14 +122,28 @@ class Lesson(object):
         """ Run each of the commands for a lesson """
         c = []
         for command in self.commands:
+
+            # Run mass replaces on internal names/paths for the command
             display_command = command.command
             for repl_for, repl_with in GLOBAL_REPLACES.iteritems():
                 display_command = display_command.replace(repl_for, repl_with)
-            display_command = display_command.replace('__repo__', self.lesson_name)
+            display_command = display_command.replace('__lesson_name__', self.lesson_name)
+
+            # Run mass replaces on internal names/paths for the responses
+            response = command.response
+            for repl_for, repl_with in GLOBAL_REPLACES.iteritems():
+                response = response.replace(repl_for, repl_with)
+            response = response.replace('__lesson_name__', self.lesson_name)
+            response = escape(response.strip()).replace('\n', '<br />')
+
+            # Escape the html of all responses
             global_responses = {}
             for cmd, resp in command.global_responses.iteritems():
+                for repl_for, repl_with in GLOBAL_REPLACES.iteritems():
+                    resp = resp.replace(repl_for, repl_with)
+                resp = resp.replace('__lesson_name__', self.lesson_name)
                 global_responses[cmd] = escape(resp.strip()).replace('\n', '<br />')
-            response = escape(command.response.strip()).replace('\n', '<br />')
+
             e = {
                 'command': display_command,
                 'response': response,
@@ -174,16 +185,16 @@ class Lesson(object):
     def parse_commands(self):
         # TODO: Allow lesson files in the format lesson_XXXX.sh
         lesson_path = os.path.join(self.lesson_dir, 'lesson.sh')
-        workspace = os.path.join(self.lesson_dir, 'workspace')
+        workspace = os.path.join(self.lesson_dir, 'temp/workspace')
         with open(lesson_path, 'r') as f:
-            lines = f.readlines()
+            bash_script = f.readlines()
 
         scenario = []
         comments = []
         hidden_commands = []
         commands = []
 
-        for line in lines:
+        for line in bash_script:
             line = line.strip()
             # Skip empty lines
             if not line:
@@ -196,12 +207,14 @@ class Lesson(object):
             elif line.startswith(';'):
                 hidden_commands.append(line.strip('; '))
             else:
+                command_workspace = workspace
                 command = line.strip()
-                # TODO: Re-code this section
-                if command.startswith('cd '):
-                    # TODO: Need better handling for remapping 'cd' calls
-                    workspace = os.path.join(workspace, '__repo__')
-                c = Command(command, hidden_commands, scenario, comments, workspace, self.lesson_name)
+                # Some commands need to be run from outside the lessons folder (Horrible hack)
+                if '#run_in_parent_folder' in command:
+                    command = command.replace('#run_in_parent_folder', '').strip()
+                else:
+                    command_workspace = os.path.realpath(os.path.join(command_workspace, '__lesson_name__'))
+                c = Command(command, hidden_commands, scenario, comments, command_workspace, self.lesson_name)
                 commands.append(c)
                 # Reset the the scenario, comments and hidden commands
                 scenario = []

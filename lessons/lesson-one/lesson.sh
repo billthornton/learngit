@@ -8,12 +8,12 @@
 ## Scenario:
 ## A fellow developer, Jim, has created a git repository for us to keep track of a simple to-do list. We want to add a new item to this to-do list and share this change with him.
 ## To get started, we will checkout an existing repository using the 'git clone' command and specifying a remote server (refered to as 'origin')
-git clone http://learngit.org/lesson-one.git
+git clone http://learngit.org/lesson-one.git #run_in_parent_folder
 # Let's look at what this has done...
-ls
+ls #run_in_parent_folder
 # This has now cloned the git repository into a directory named 'lesson-one' (a custom folder name may be specified by passing it as an extra parameter)
 # Let's cd into this folder and look at what is inside
-cd __repo__
+cd __lesson_name__ #run_in_parent_folder
 ls
 # Ok, so we have a single file, lets see what is in there by by displaying the contents to the screen
 cat todo.txt
@@ -21,10 +21,11 @@ cat todo.txt
 echo "learn git" >> todo.txt
 # We can now see the changes to this file by using the 'git diff' command and specifying a filename
 git diff todo.txt
+# This command shows a standard header, then lists each line in the file. Those marked with a plus (+) are line changes that have been added. Any marked with a minus (-) are lines that have been removed.
 # So, we are happy with this change and wish to commit it. Let's try the command 'git commit'
 git commit
 # But wait, that command didn't do anything?
-# In git, changes you make must be added to a staging area called the 'index' before they can be committed. This helps provide you will full control over what changes are added in the commit. You may only add certain files, or even only a selection of changes in the file.
+# In git, changes you make must be added to a staging area called the 'index' before they can be committed. This helps provide you will full control over what changes are added in the commit. You may only add certain modified files, or even only a selection of changes in a modified file.
 # We want to add all of the changes in our file, so we use the simplest form of 'git add <file>'.
 git add todo.txt
 # You can see an overview of the current state of the repository by running the 'git status' command.
