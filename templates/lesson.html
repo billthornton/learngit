@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Lesson {{ lesson_name }}{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="page-header">
+        <h1>Lesson One <small>Basics Commands and Workflow</small></h1>
+    </div>
+
+    <div class="alert alert-info">
+        <strong>Tip:</strong> Use the tab button to complete commands (or double space on the iPad)</a>.
+    </div>
+
+    <div class="clearfix">
+        <div class="term span8 clearfix">
+            <div class="term-contents-container">
+                <ul class="term-contents"></ul>
+            </div>
+            <div class="term-bottom">
+                <input id="term-input-hidden" name="input-hidden" type="text" disabled="true" value="" />
+                <div class="main-input-container">
+                    <span class="prompt">&gt;&gt; </span><input id="term-input" name="input" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" />
+                </div>
+            </div>
+        </div>
+        <div class="sidebar span4">
+            <div class="box">
+                <h4>Basic Commands and Workflow</h4>
+                <p>In this lesson, you will learn the basic workflow of using git commands in an already existing Git project.</p>
+            </div>
+            <div class="box">
+                <h3>Git Status</h3>
+                <h4>To be committed</h4>
+                <ul class="file-listing"><li>filename.ext</li></ul>
+                <h4>Changed</h4>
+                <ul class="file-listing"><li>filename.ext</li></ul>
+                <h4>Untracked</h4>
+                <ul class="file-listing"><li>filename.ext</li></ul>
+            </div> 
+            <div class="box">
+                <h3>Branches</h3>
+                <p>Show a visualisation of the branches</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/js/lessons/{{ lesson_name }}.js" type="text/javascript"></script>
+    <script src="/static/js/gitTerminal.js" type="text/javascript"></script>
+{% endblock %}
