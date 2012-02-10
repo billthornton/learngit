@@ -1,2 +1,1 @@
-cd ../lessons/lesson-one/
-rm -rf temp
+rm -rf /tmp/lessons/lesson-one

@@ -134,6 +134,12 @@
             contents.append('<li class="command">&gt;&gt; ' + escaped_cmd + '</li>');
             contents.append('<li class="response">' + response + '</li>');
 
+            //TODO: Move this somewhere else
+            var git_status = current_command.global_responses['git status -s'];
+            if (git_status.indexOf('fatal:') != 0) {
+                $('.git-status').html(git_status);
+            }
+
             // Keep track of a history of commands
             var command_history = $.data(document.body, 'command_history');
             command_history.push(command_to_exec);

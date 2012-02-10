@@ -22,15 +22,13 @@ echo "learn git" >> todo.txt
 # We can now see the changes to this file by using the 'git diff' command and specifying a filename
 git diff todo.txt
 # This command shows a standard header, then lists each line in the file. Those marked with a plus (+) are line changes that have been added. Any marked with a minus (-) are lines that have been removed.
-# So, we are happy with this change and wish to commit it. Let's try the command 'git commit'
-git commit
-# But wait, that command didn't do anything?
+# 
 # In git, changes you make must be added to a staging area called the 'index' before they can be committed. This helps provide you will full control over what changes are added in the commit. You may only add certain modified files, or even only a selection of changes in a modified file.
 # We want to add all of the changes in our file, so we use the simplest form of 'git add <file>'.
 git add todo.txt
 # You can see an overview of the current state of the repository by running the 'git status' command.
 git status
-# You can see that this change is now listed under "Changes to be commited"
+# You can see that this change is listed under "Changes to be commited"
 # We can now commit this change.
 git commit -m "Added learning git to my todo list"
 # Typing 'git log' will show our commit listed

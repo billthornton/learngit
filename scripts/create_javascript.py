@@ -30,12 +30,12 @@ BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 # Note: if you add a command here, consider adding it to the help in the front-end
 GLOBAL_COMMANDS = [
     'ls', 'ls -l', 'll', 'ls -h', 'ls -halF', 'pwd',
-    'git status', 'git log', 'git diff'
+    'git status', 'git log', 'git diff', 'git status -s'
 ]
 
 GLOBAL_REPLACES = {
     # TODO: Make dynamic
-    '/root/code/learngit/site/lessons/' : '/home/learngit/'
+    '/tmp/lessons/' : '/home/learngit/'
 }
 
 class Command(object):
@@ -64,7 +64,7 @@ class Command(object):
 
     def remap_command(self, command):
         # TODO: Find a better way to do this
-        # All commands are executred within the workspace, however our repo to clone will be in temp/_repo_
+        # All commands are executred within the workspace, however our repo to clone will be in __repo_
         if command.startswith('git clone'):
             path = os.path.realpath(os.path.join(self.base_dir, '../__repo__'))
             command = 'git clone ' + path + ' __lesson_name__'
@@ -185,7 +185,7 @@ class Lesson(object):
     def parse_commands(self):
         # TODO: Allow lesson files in the format lesson_XXXX.sh
         lesson_path = os.path.join(self.lesson_dir, 'lesson.sh')
-        workspace = os.path.join(self.lesson_dir, 'temp/workspace')
+        workspace = os.path.join('/tmp/lessons/%s' % (self.lesson_name,), 'workspace')
         with open(lesson_path, 'r') as f:
             bash_script = f.readlines()
 
