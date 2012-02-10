@@ -1,25 +1,83 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>{% block title %}{% endblock %} - Lessons for Learning Git Interactivly</title>
-    <meta name="description" content="Learn Git Interactive Git Tutorial">
-    <meta name="author" content="">
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}{% endblock %} - Lessons for Learning Git Interactivly</title>
+        <meta name="description" content="Learn Git Interactive Git Tutorial">
+        <meta name="author" content="">
 
-    <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <link href="/static/css/learn-git.css" rel="stylesheet">
+        <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+        <link href="/static/css/learn-git.css" rel="stylesheet">
 
-    {% block head %}{% endblock %}
+        {% block head %}{% endblock %}
 
 
-    <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+        <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
     </head>
     <body>
-        <div class="container">
-            {% block content %}
-            {% endblock %}
+        <div class="header">
+
+
+            <div class="container">
+                <div class="row">
+                    <div class="logo span2"><h1>&plusmn; learn git</h1></div>
+                    <div class="navbar span6 offset4">
+                        <div class="navbar-inner">
+                            <ul class="nav">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        Beginner <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Lesson One</a></li>
+                                        <li><a href="#">Lesson X - Super Duper Long Long Long Long title</a></li>
+                                        <li><a href="#">Lesson X</a></li>
+                                        <li><a href="#">Lesson X</a></li>
+                                        <li><a href="#">Lesson X</a></li>
+                                        <li><a href="#">Lesson X</a></li>
+                                    </ul>
+                                </li>
+                                <li class="divider-vertical"></li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        Intermediate <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Lesson One</a></li>
+                                        <li><a href="#">Lesson X - Long title</a></li>
+                                        <li><a href="#">Lesson X</a></li>
+                                        <li><a href="#">Lesson X</a></li>
+                                        <li><a href="#">Lesson X</a></li>
+                                        <li><a href="#">Lesson X</a></li>
+                                    </ul>
+                                </li>
+                                <li class="divider-vertical"></li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        Advanced <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Lesson One</a></li>
+                                        <li><a href="#">Lesson X - Long title</a></li>
+                                        <li><a href="#">Lesson X</a></li>
+                                        <li><a href="#">Lesson X</a></li>
+                                        <li><a href="#">Lesson X</a></li>
+                                        <li><a href="#">Lesson X</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% block header %}{% endblock %}
+            </div>
+        </div>
+        <div class="main">
+            <div class="container">
+                {% block content %}{% endblock %}
+            </div>
         </div>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
         <script src="/static/bootstrap/js/bootstrap.js"></script>

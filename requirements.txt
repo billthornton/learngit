@@ -2,4 +2,5 @@ Flask==0.8
 Jinja2==2.6
 Werkzeug==0.8.3
 distribute==0.6.10
+-e git+http://github.com/suzanshakya/flask-clevercss.git@1c49767214fc7548a1d11fdd93e46e9a09e9bdcc#egg=flask_clevercss-dev
 wsgiref==0.1.2

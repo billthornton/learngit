@@ -1,3 +1,4 @@
 *.pyc
 static/js/lessons
 *.swp
+static/css/learn-git.css

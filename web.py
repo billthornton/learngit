@@ -10,4 +10,8 @@ def lesson(lesson_name):
     return render_template('lesson.html', lesson_name=lesson_name)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+    app.debug = True
+    if app.debug:
+        from flaskext.clevercss import clevercss
+        clevercss(app)
+    app.run(host="0.0.0.0")
