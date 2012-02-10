@@ -35,7 +35,12 @@ GLOBAL_COMMANDS = [
 
 GLOBAL_REPLACES = {
     # TODO: Make dynamic
-    '/tmp/lessons/' : '/home/learngit/'
+    '/tmp/lessons/' : '/home/learngit/',
+}
+FORMATTING_REPLACES = {
+    '\n': '<br />',
+    '\t': '&nbsp;',
+    ' ': '&nbsp;'
 }
 
 class Command(object):
@@ -130,19 +135,23 @@ class Lesson(object):
             display_command = display_command.replace('__lesson_name__', self.lesson_name)
 
             # Run mass replaces on internal names/paths for the responses
-            response = command.response
+            response = escape(command.response)
             for repl_for, repl_with in GLOBAL_REPLACES.iteritems():
                 response = response.replace(repl_for, repl_with)
+            for repl_for, repl_with in FORMATTING_REPLACES.iteritems():
+                response = response.replace(repl_for, repl_with)
             response = response.replace('__lesson_name__', self.lesson_name)
-            response = escape(response.strip()).replace('\n', '<br />')
 
             # Escape the html of all responses
             global_responses = {}
             for cmd, resp in command.global_responses.iteritems():
+                resp = escape(resp)
                 for repl_for, repl_with in GLOBAL_REPLACES.iteritems():
                     resp = resp.replace(repl_for, repl_with)
+                for repl_for, repl_with in FORMATTING_REPLACES.iteritems():
+                    resp = resp.replace(repl_for, repl_with)
                 resp = resp.replace('__lesson_name__', self.lesson_name)
-                global_responses[cmd] = escape(resp.strip()).replace('\n', '<br />')
+                global_responses[cmd] = resp
 
             e = {
                 'command': display_command,
@@ -204,8 +213,8 @@ class Lesson(object):
                 scenario.append(line.strip('# '))
             elif line.startswith('#'):
                 comments.append(line.strip('# '))
-            elif line.startswith(';'):
-                hidden_commands.append(line.strip('; '))
+            elif line.startswith('echo;'):
+                hidden_commands.append(line.strip('echo; '))
             else:
                 command_workspace = workspace
                 command = line.strip()
