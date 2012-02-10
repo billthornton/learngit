@@ -30,7 +30,7 @@ BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 # Note: if you add a command here, consider adding it to the help in the front-end
 GLOBAL_COMMANDS = [
     'ls', 'ls -l', 'll', 'ls -h', 'ls -halF', 'pwd',
-    'git status', 'git log', 'git diff', 'git status -s'
+    'git status', 'git log', 'git diff', 'git status -s', 'git branch'
 ]
 
 GLOBAL_REPLACES = {
@@ -214,7 +214,7 @@ class Lesson(object):
             elif line.startswith('#'):
                 comments.append(line.strip('# '))
             elif line.startswith('echo;'):
-                hidden_commands.append(line.strip('echo; '))
+                hidden_commands.append(line.replace('echo;', '').strip())
             else:
                 command_workspace = workspace
                 command = line.strip()
