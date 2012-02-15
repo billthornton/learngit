@@ -21,9 +21,9 @@ cat todo.txt
 echo "learn git" >> todo.txt
 # We can now see the changes to this file by using the 'git diff' command and specifying a filename
 git diff todo.txt
-# This command shows a standard header, then lists each line in the file. Those marked with a plus (+) are line changes that have been added. Any marked with a minus (-) are lines that have been removed.
+# This command shows a standard header, then lists lines around any changes in the file. Those marked with a plus (+) are line changes that have been added. Any marked with a minus (-) are lines that have been removed.
 # 
-# In git, changes you make must be added to a staging area called the 'index' before they can be committed. This helps provide you will full control over what changes are added in the commit. You may only add certain modified files, or even only a selection of changes in a modified file.
+# In git, changes you make must be added to a staging area called the 'index' before they can be committed. This helps provide you with full control over what changes are added in the commit. You may only add certain modified files, or even only a selection of changes in a modified file.
 # We want to add all of the changes in our file, so we use the simplest form of 'git add <file>'.
 git add todo.txt
 # You can see an overview of the current state of the repository by running the 'git status' command.

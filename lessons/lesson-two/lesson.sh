@@ -69,7 +69,7 @@ git commit -m "Changed 'x' to 'y' in the blog"
 # Let's switch to master, and merge our branch in.
 git checkout master
 git merge site-rename
-# We could now leave our site-rename branch alone, but since our work on it is done, we may as well delete it.
+# Merging a branch into another one does not delete it. You are free to switch back to the branch and keep committing. However, our renaming here is done, so we may as well delete the branch.
 # This is done using the command 'git branch -d <branch-name>'. This command is clever enough to first make sure all of our commits have been merged into master before it will allow you to delete it.
 git branch -d site-rename
 # Great, that is all done. Now we just need to push these changes so our sys admin can see them and update the live site.
@@ -77,13 +77,3 @@ git branch -d site-rename
 # Since we may be working with many different branches, it is good practice to tell git what branch you are pushing, and where you are pushing it to in the format 'git push <location> <branch-name>'. In our case, 'git push origin master', which tells git to push our master branch to the origin server (the main repository).
 git push origin master
 
-
-
-
-
-
-
-
-
-# You decide you don't wish to rename your website yet, and wish to put of the work until late.
-# 2 months later, you decide it is the right time to do the rename, but you have just added a blog to your website with copy mentioning 'x'!
