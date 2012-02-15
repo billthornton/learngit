@@ -36,6 +36,35 @@
     </div>
 {% endblock %}
 
+{% block content %}
+    <div class="row">
+        <div class="box">
+            <h3>Glossary</h3>
+            <dl>
+                <dt>Repository</dt>
+                <dd>A git repository is a location where the codebase, and metadata about that codebase is stored. Repositories in git are decentralised, meaning there does not need to be one central authoritive repository. Each of your local codebase is a full repository, meaning that you can carry even if the remote repository is corrupted or fails.</dd>
+                <dt>git clone</dt>
+                <dd>This command will clone a selected repository, it's code, commits and other metadata.</dd>
+                <dt>HEAD</dt>
+                <dd></dd>
+                <dt>git status</dt>
+                <dd>Shows the current status of your local git repository. Such as what files you have modified, renamed or deleted.</dd>
+                <dt>git log</dt>
+                <dd>Shows a history of commits in your git reporitory. Both those you have made locally and those done by other developers.</dd>
+                <dt>git commit</dt>
+                <dd>A commit in git is a a set of changes to one or more files. Git will compare your local files to the version in the last commit, and work out if there has been any changes. The changes could be single lines, or many lines, or even operations such as delete or rename. You may then commit these changes so they can be applied to other developers codebases when they next pull down changes.
+                </dd>
+                <dt>git push</dt>
+                <dd>To share your changes with other developers, you need to share your commits by pushing them. For each of use, you will most commonly be pushing to a central master repository that other developers, or servers may connect to to get the latest set of changes.
+                </dd>
+                <dt>git pull</dt>
+                <dd>
+                </dd>
+            </dl> 
+        </div>
+    </div>
+{% endblock %}
+
 {% block scripts %}
     <script src="/static/js/lessons/{{ lesson_name }}.js" type="text/javascript"></script>
     <script src="/static/js/gitTerminal.js" type="text/javascript"></script>
