@@ -6,8 +6,8 @@
 
 {% block header %}
 
-    <div class="clearfix">
-        <div class="term span8 clearfix">
+    <div class="clearfix row">
+        <div class="term span12 clearfix">
             <div class="term-contents-container">
                 <ul class="term-contents"></ul>
             </div>
@@ -18,17 +18,23 @@
                 </div>
             </div>
         </div>
-        <div class="sidebar span4">
-            <div class="box">
+    </div>
+    <div class="bottom-bar row">
+        <div class="box span4">
+            <div class="inner">
                 <h3>Lesson One</h3>
                 <h4>Basic Commands and Workflow</h4>
                 <p>In this lesson, you will learn the basic workflow of using git commands in an already existing Git project.</p>
             </div>
-            <div class="box">
+        </div>
+        <div class="box span4">
+            <div class="inner">
                 <h3>Git Status</h3>
                 <div class="git-status"></div>
             </div>
-            <div class="box">
+        </div>
+        <div class="box span4">
+            <div class="inner">
                 <h3>Branches</h3>
                 <p>Show a visualisation of the branches</p>
             </div>
@@ -60,7 +66,7 @@
                 <dt>git pull</dt>
                 <dd>
                 </dd>
-            </dl> 
+            </dl>
         </div>
     </div>
 {% endblock %}
