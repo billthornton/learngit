@@ -2,3 +2,4 @@
 static/js/lessons
 *.swp
 static/css/learn-git.css
+venv/
