@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        {% block head %}{% endblock %}
+        <title>{% block title %}{{ website_name }}{% endblock %}</title>
+    </head>
+
+    <body>
+        <div class="container">
+            <header>
+                <h1>Welcome to {{ website_name }}</h1>
+            </header>
+            <div class="content">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </body>
+
+
+</html>

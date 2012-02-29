@@ -1,0 +1,17 @@
+{% extend "base.html" %}
+
+{% block content %}
+    <div class="listing">
+        {% for news in news_posts %}
+            <div class="news-post">
+                <div class="news-post-header">
+                    <h2>{{ news.title|escape }}</h2>
+                </div>
+                <div class="news-post-content">
+                    <h2>{{ news.body|escape }}</h2>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
