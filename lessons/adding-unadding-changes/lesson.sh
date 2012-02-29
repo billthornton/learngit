@@ -2,7 +2,7 @@
 # ================================
 # As mentioned in lesson one, to commit a change to a file in git, you must explicitly add that file to the staging area (known as the index) before it can be commited.
 # You could commit each file individually by issuing a lot of 'git add path/to/file.ext' commands, however there are a number of easier shortcuts to make life easier.
-## First, Lets have a look at what is in our current repository
+## First, lets have a look at what is in our current repository
 git status
 # This shows us that there are three modified files, and one newly created file in our repository.
 ## Add all files
@@ -10,14 +10,15 @@ git status
 ## 'git add -A' (alternativly 'git add --all')
 ## This will add to the index, all modified files AND all untracked files (files in your folder that have not yet been added to git)
 git add -A
+# The git status command will show us what files have been added to our index.
 git status
-echo;reset
+echo;git reset HEAD
 ## Add updated files
 ## -----------------
 ## Alternativly, if you just want to add the files you have made changes to, use the command 'git add -u' to add all updated files.
 git add -u
 git status
-echo;reset
+echo;git reset HEAD
 ##
 ## It is good practice in git to not commit too much at once, and to instead commit a lot of small, but related, changes.
 ## Let's only add the changes that are in the <folder> folder. We can do this by just adding the shared path of these files
