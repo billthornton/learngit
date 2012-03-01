@@ -3,7 +3,7 @@ echo $LESSON_DIR
 
 # Create a fake repo that we can clone from
 LESSON_TEMP="/tmp/lessons/$( dirname "${BASH_SOURCE[0]}" )"
-LESSON_TEMP=`realpath $LESSON_TEMP`
+LESSON_TEMP="$(readlink -f $LESSON_TEMP)"
 echo $LESSON_TEMP
 
 mkdir -p $LESSON_TEMP
