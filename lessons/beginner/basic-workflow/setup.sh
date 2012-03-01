@@ -10,7 +10,7 @@ mkdir -p $LESSON_TEMP
 cd $LESSON_TEMP
 mkdir __repo__
 mkdir -p workspace/__lesson_name__
-cp -R $LESSON_DIR/files $LESSON_TEMP/__repo__
+cp -R $LESSON_DIR/files/ $LESSON_TEMP/__repo__
 cd $LESSON_TEMP/__repo__
 git init
 git add todo.txt
