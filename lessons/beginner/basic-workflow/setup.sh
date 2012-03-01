@@ -1,11 +1,17 @@
-cd ../lessons/lesson-one/
+LESSON_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+echo $LESSON_DIR
 # Create a fake repo that we can clone from
-mkdir -p /tmp/lessons/lesson-one/__repo__
-mkdir -p /tmp/lessons/lesson-one/workspace
-cp files/* /tmp/lessons/lesson-one/__repo__/
-cd /tmp/lessons/lesson-one/__repo__
+LESSON_TEMP="/tmp/lessons/$( dirname "${BASH_SOURCE[0]}" )"
+echo $LESSON_TEMP
+
+mkdir -p $LESSON_TEMP
+cd $LESSON_TEMP
+mkdir __repo__
+mkdir __lesson_name__
+cp -R $LESSON_DIR/files $LESSON_TEMP/__repo__
+cd $LESSON_TEMP/__repo__
 git init
 git add todo.txt
 git commit -m "Initial commit of my todo list"
 # Make the repo a bare repo (so we can push to it)
-sed -i 's/bare = false/bare = true/g' ./.git/config
+sed -i '' -e 's/bare = false/bare = true/g' ./.git/config

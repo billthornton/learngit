@@ -1,12 +1,19 @@
-cd ../lessons/adding-unadding-changes/
+LESSON_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+echo $LESSON_DIR
+
 # Create a fake repo that we can clone from
-mkdir -p /tmp/lessons/adding-unadding-changes/__repo__
-mkdir -p /tmp/lessons/adding-unadding-changes/workspace
-cp files/* /tmp/lessons/adding-unadding-changes/__repo__/
-cd /tmp/lessons/adding-unadding-changes/__repo__
+LESSON_TEMP="/tmp/lessons/$( dirname "${BASH_SOURCE[0]}" )"
+LESSON_TEMP=`realpath $LESSON_TEMP`
+echo $LESSON_TEMP
+
+mkdir -p $LESSON_TEMP
+cd $LESSON_TEMP
+mkdir __lesson_name__
+mkdir files
+cp -R $LESSON_DIR/files $LESSON_TEMP/files
+cd $LESSON_TEMP/__lesson_name__
 git init
-git add *.html
+cp -R $LESSON_TEMP/files/1 $LESSON_TEMP/__lesson_name__
+git add templates
 git commit -m "Initial commit"
-# Make the repo a bare repo (so we can push to it)
-sed -i 's/bare = false/bare = true/g' ./.git/config
 
