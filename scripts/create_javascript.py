@@ -20,7 +20,7 @@ A lesson is specified in a series of bash scripts:
 ## Scenario - (highlighted in blue) will always appear after any comments
 ; Hidden command (is executed before the next command, but the output is not logged)
 
-__lesson_name__ = folder representing the git repository created for the project. It is replace with the name 
+__lesson_name__ = folder representing the git repository created for the project. It is replace with the name
 of the lesson when being shown to the user
 
 """
@@ -239,10 +239,10 @@ def main():
     if resp.lower() not in ['y', 'yes']:
         sys.exit(0)
     lessons_path = os.path.join(BASE_DIR, '../lessons')
-    for directory in os.listdir(lessons_path):
-        lesson_dir = os.path.join(lessons_path, directory)
-        with Lesson(lesson_dir, directory) as lesson:
-            lesson.run()
+    for root, dirs, files in os.walk(lessons_path):
+        if 'lesson.sh' in files:
+            with Lesson(root, os.path.basename(root)) as lesson:
+                lesson.run()
 
 if __name__ == '__main__':
     main()
