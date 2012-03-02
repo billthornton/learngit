@@ -221,6 +221,7 @@ class Lesson(object):
                 # Some commands need to be run from outside the lessons folder (Horrible hack)
                 if '#run_in_parent_folder' in command:
                     command = command.replace('#run_in_parent_folder', '').strip()
+                    command_workspace = os.path.realpath(command_workspace)
                 else:
                     command_workspace = os.path.realpath(os.path.join(command_workspace, '__lesson_name__'))
                 c = Command(command, hidden_commands, scenario, comments, command_workspace, self.lesson_name)
