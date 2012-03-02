@@ -1,3 +1,4 @@
+echo;cp -R ../../files/2/ ./
 # Adding and unadding files to git
 # ================================
 # As mentioned in lesson one, to commit a change to a file in git, you must explicitly add that file to the staging area (known as the index) before it can be commited.
