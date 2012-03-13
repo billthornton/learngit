@@ -83,6 +83,7 @@ class Command(object):
         print ' >>  ' + command
         r = subprocess.Popen(command, shell=True, stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
         response = r.stdout.read()
+        print ' -- ' + response
         return response
 
     def run(self):
@@ -121,7 +122,8 @@ class Lesson(object):
 
     def __exit__(self, type, value, traceback):
         # Delete our temporary workspace folders
-        self.teardown()
+        #self.teardown()
+        pass
 
     def run(self):
         """ Run each of the commands for a lesson """
@@ -224,6 +226,7 @@ class Lesson(object):
                     command_workspace = os.path.realpath(command_workspace)
                 else:
                     command_workspace = os.path.realpath(os.path.join(command_workspace, '__lesson_name__'))
+                print "Workspace: %s Exists?%d" % (command_workspace, os.path.exists(command_workspace))
                 c = Command(command, hidden_commands, scenario, comments, command_workspace, self.lesson_name)
                 commands.append(c)
                 # Reset the the scenario, comments and hidden commands
@@ -239,11 +242,17 @@ def main():
     resp = raw_input('Are you sure you wish to run this script? (y/N)')
     if resp.lower() not in ['y', 'yes']:
         sys.exit(0)
-    lessons_path = os.path.join(BASE_DIR, '../lessons')
-    for root, dirs, files in os.walk(lessons_path):
-        if 'lesson.sh' in files:
-            with Lesson(root, os.path.basename(root)) as lesson:
-                lesson.run()
+
+    if len(sys.argv) > 1:
+        lesson_dir = os.path.abspath(sys.argv[1])
+        with Lesson(lesson_dir, os.path.basename(lesson_dir)) as lesson:
+            lesson.run()
+    else:
+        lessons_path = os.path.join(BASE_DIR, '../lessons')
+        for root, dirs, files in os.walk(lessons_path):
+            if 'lesson.sh' in files:
+                with Lesson(root, os.path.basename(root)) as lesson:
+                    lesson.run()
 
 if __name__ == '__main__':
     main()
